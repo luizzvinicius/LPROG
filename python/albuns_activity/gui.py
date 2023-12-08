@@ -10,7 +10,7 @@ def on_click(event):
 window = Tk()
 window.title("Sistema de cadastro")
 window.geometry('400x400')
-window.tk.call("source", "./python/azure.tcl")
+window.tk.call("source", "./python/albuns_activity/azure.tcl")
 window.tk.call("set_theme", "light")
 
 btn = ttk.Button(window, text='Clique aqui')
