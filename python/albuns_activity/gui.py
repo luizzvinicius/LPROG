@@ -1,48 +1,81 @@
+import domain
 from tkinter import *
-from tkinter import ttk # módulo mais compleot
+from tkinter import ttk  # módulo mais compleot
+from datetime import date
 
-data = ("Calabreso", "Perereco")
-
-def on_click(event):
-    lbl.configure(text='Sua mãe é minha')
-    print(event)
-
+tamanho_input = 300
 window = Tk()
-window.title("Sistema de cadastro")
-window.geometry('400x400')
+window.title("Spotify")
+window.geometry("700x450")
+window.resizable(FALSE, FALSE)
 window.tk.call("source", "./python/albuns_activity/azure.tcl")
-window.tk.call("set_theme", "light")
+window.tk.call("set_theme", "dark")
 
-btn = ttk.Button(window, text='Clique aqui')
-btn.bind("<Double-Button-1>", func=on_click)
-btn.place(x=140, y=10, height=36)
-txtfld = ttk.Entry(window, text="Digite aqui", name="jorge")
-txtfld.place(x=10, y=10, width=120, height=36,)
-lbl = Label(window, text='Ola')
-lbl.place(x=0, y=46)
-box=ttk.Combobox(window, value=data)
-box.place(x=0, y=66)
-list_box = Listbox(window, height=12, selectmode='multiple')
+def search_albuns(e):
+    global window
+    segunda_tela = Toplevel(window)
+    segunda_tela.title("Busca de álbuns")
+    segunda_tela.geometry("400x400")
+    segunda_tela.resizable(FALSE, FALSE)
 
-for item in data:
-    list_box.insert(END, item)
+    rotulo_segunda_tela = ttk.Label(segunda_tela, text="Você está na segunda tela!")
+    rotulo_segunda_tela.pack()
 
-list_box.place(x=0, y=100)
+    def botao_voltar_click():
+        segunda_tela.destroy()
 
-v0 = StringVar()
-v0.set("Java")
-# deve ter mesmo variable
-r1 = ttk.Radiobutton(window, text="Java", variable=v0, value="Java")
-r2 = ttk.Radiobutton(window, text="Python", variable=v0, value="Python")
-r1.place(x=200, y=200)
-r2.place(x=280, y=200)
+    botao_voltar = ttk.Button(segunda_tela, text="Voltar", command=botao_voltar_click)
+    botao_voltar.pack()
+
+frame1 = ttk.Frame(window, borderwidth=1, relief="solid", width=tamanho_input, height=150)
+frame1.pack()
+
+lbl_autor = ttk.Label(frame1, text="Autor: ")
+lbl_autor.pack()
+entry_autor = ttk.Entry(frame1, name="autor", width=tamanho_input)
+entry_autor.pack()
+
+lbl_album = ttk.Label(frame1, text="Álbum: ")
+lbl_album.pack()
+entry_album = ttk.Entry(frame1, name="album", width=tamanho_input)
+entry_album.pack()
+
+lbl_date = ttk.Label(frame1, text="Data lançamento: ")
+lbl_date.pack()
+entry_date = ttk.Spinbox(frame1, from_=1900, to=date.today().year, width=tamanho_input)
+entry_date.pack()
+
+v0 = BooleanVar()
+v0.set(False)
+check_first = ttk.Checkbutton(frame1, text="Álbum lançamento", variable=v0)
+check_first.pack()
+
+btn_search = ttk.Button(window, text="Mostrar todos os álbuns")
+btn_search.bind("<Button-1>", search_albuns)
+btn_search.pack()
+
+def cadastra_album(e):
+    autor = entry_autor.get()
+    nome_album = entry_album.get()
+    release_date = entry_date.get()
+    first_album = v0.get()
+    message = ''
+    if '' in [autor, nome_album, release_date] or int(release_date) > date.today().year:
+        message = 'Algum campo no cadastro está vazio. Ou data é inválida'
+    else:
+        message = 'Álbum cadastrado'
+        domain.write_album(autor, nome_album, release_date, first_album)
+    lbl = ttk.Label(window, text=message)
+    lbl.pack()
 
 
-v1 = IntVar()
-v2 = IntVar()
-c1 = ttk.Checkbutton(window, text = "Futebol", variable = v1)
-c2 = ttk.Checkbutton(window, text = "Tenis", variable = v2)
-c1.place(x=200, y=250)
-c2.place(x=280, y=250)
+btn_create = ttk.Button(window, text="Criar álbum")
+btn_create.bind("<Button-1>", func=cadastra_album)
+btn_create.pack()
+
+
+
+lbl_teste = ttk.Label(frame1, text=entry_autor.get())
+lbl_teste.pack()
 
 window.mainloop()
