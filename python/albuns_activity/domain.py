@@ -18,4 +18,4 @@ def get_album_by_author(author: str):
         values = album.split("|")
         if author.lower() in values[1].lower():
             selected_albuns.append(values[1])
-    print(selected_albuns)
+    return selected_albuns
