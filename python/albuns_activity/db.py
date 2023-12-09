@@ -1,15 +1,5 @@
 file_name = "albuns.txt"
 
-import timeit
-def time_execution(f):
-    def wrapper():
-        st = timeit.default_timer()
-        soma = f()
-        end = timeit.default_timer() - st
-        print(f"time spent: {end}")
-        return soma
-    return wrapper
-
 
 def write_albuns(author, album, release_date, first_song):
     with open(file_name, "a", encoding="UTF-8") as file:

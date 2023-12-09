@@ -58,9 +58,11 @@ btn_create.grid(row=3, column=1, sticky="W", pady=10)
 
 lbl.grid(row=4, column=1)
 
+
 def crate_label(window, text, colum=0, row=0):
     lbl = ttk.Label(window, text=text)
     lbl.pack()
+
 
 def search_albuns(e):
     global window
@@ -69,7 +71,6 @@ def search_albuns(e):
     second_screen.geometry(f"{width}x{height}+{x_cordinate}+{y_cordinate}")
     second_screen.resizable(FALSE, FALSE)
 
-
     lbl_autor = ttk.Label(second_screen, text="Autor para pesquisar:")
     lbl_autor.pack()
     entry_autor = ttk.Entry(second_screen, name="autor", width=50)
@@ -77,39 +78,38 @@ def search_albuns(e):
     lbl_error = ttk.Label(second_screen, text="")
     lbl_error.pack()
 
-    tr = ttk.Treeview(second_screen, columns=('Autor', 'Álbum', 'Ano lançamento', 'Lançamento do Artista'), show='headings')
-    tr.column('Autor', minwidth=10, width=80, anchor='w')
-    tr.column('Álbum', minwidth=10, width=80, anchor='center')
-    tr.column('Ano lançamento', minwidth=10, width=120, anchor='center')
-    tr.column('Lançamento do Artista', minwidth=30, width=160, anchor='center')
-    tr.heading('Autor', text='Autor')
-    tr.heading('Álbum', text='Álbum')
-    tr.heading('Ano lançamento', text='Ano lançamento')
-    tr.heading('Lançamento do Artista', text='Lançamento do Artista')
+    tr = ttk.Treeview(second_screen, columns=("Autor", "Álbum", "Ano lançamento", "Lançamento do Artista"), show="headings",)
+    tr.column("Autor", minwidth=10, width=80, anchor="w")
+    tr.column("Álbum", minwidth=10, width=80, anchor="center")
+    tr.column("Ano lançamento", minwidth=10, width=120, anchor="center")
+    tr.column("Lançamento do Artista", minwidth=30, width=160, anchor="center")
+    tr.heading("Autor", text="Autor")
+    tr.heading("Álbum", text="Álbum")
+    tr.heading("Ano lançamento", text="Ano lançamento")
+    tr.heading("Lançamento do Artista", text="Lançamento do Artista")
     tr.pack()
-
 
     frame_radio = ttk.Frame(second_screen)
     frame_radio.pack()
     v0 = IntVar()
     v0.set(0)
-    r1=ttk.Radiobutton(frame_radio, text="Anterior a", variable=v0, value=1)
-    r2=ttk.Radiobutton(frame_radio, text="Igual a", variable=v0, value=2)
-    r3=ttk.Radiobutton(frame_radio, text="Posterior a", variable=v0, value=3)
-    r1.pack(anchor='w')
-    r2.pack(anchor='w')
-    r3.pack(anchor='w')
+    r1 = ttk.Radiobutton(frame_radio, text="Anterior a", variable=v0, value=1)
+    r2 = ttk.Radiobutton(frame_radio, text="Igual a", variable=v0, value=2)
+    r3 = ttk.Radiobutton(frame_radio, text="Posterior a", variable=v0, value=3)
+    r1.pack(anchor="w")
+    r2.pack(anchor="w")
+    r3.pack(anchor="w")
 
     data = [str(i) for i in range(1900, current_year, 4)]
     cb = ttk.Combobox(second_screen, values=data)
     cb.pack()
 
     def get_specific_album(e):
-        if entry_autor.get() == '' and v0.get() == 0:
+        if entry_autor.get() == "" and v0.get() == 0:
             lbl_error.configure(text="Nome do Autor está vazio")
             return
 
-        if entry_autor.get() and v0.get() in (1,2,3) and cb.get():
+        if entry_autor.get() and v0.get() in (1, 2, 3) and cb.get():
             lbl_error.configure(text="Forma de busca inválida")
             return
 
@@ -125,13 +125,13 @@ def search_albuns(e):
             specific_albuns = domain.get_album_same_year(cb.get())
         elif v0.get() == 3:
             specific_albuns = domain.get_album_next_year(cb.get())
-        
+
         if len(specific_albuns) == 0:
             lbl_error.configure(text="Nenhum autor com esses filtros cadastrado")
             return
         for item in specific_albuns:
             item = item.split("|")
-            tr.insert('', 'end', values=[item[0], item[1], item[2], item[3]])
+            tr.insert("", "end", values=[item[0], item[1], item[2], item[3]])
 
     btn_search1 = ttk.Button(second_screen, text="Pesquisar")
     btn_search1.bind("<Button-1>", func=get_specific_album)
