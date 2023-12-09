@@ -17,17 +17,17 @@ window.resizable(FALSE, FALSE)
 window.tk.call("source", "./python/albuns_activity/azure.tcl")
 window.tk.call("set_theme", "dark")
 
-lbl_autor = ttk.Label(window, text="Autor: ")
+lbl_autor = ttk.Label(window, text="Autor: ", font=('Roboto', 17))
 lbl_autor.grid(row=0, column=0, sticky="w", padx=16)
 entry_autor = ttk.Entry(window, name="autor", width=50)
 entry_autor.grid(row=0, column=1, pady=10)
 
-lbl_album = ttk.Label(window, text="Álbum: ")
+lbl_album = ttk.Label(window, text="Álbum: ", font=('Roboto', 17))
 lbl_album.grid(row=1, column=0, sticky="w", padx=16)
 entry_album = ttk.Entry(window, name="album", width=50)
 entry_album.grid(row=1, column=1, pady=10)
 
-lbl_date = ttk.Label(window, text="Data lançamento: ")
+lbl_date = ttk.Label(window, text="Data lançamento: ", font=('Roboto', 10))
 lbl_date.grid(row=2, column=0, padx=16)
 entry_date = ttk.Spinbox(window, from_=1900, to=current_year)
 entry_date.grid(row=2, column=1, sticky="W", pady=10)
@@ -37,7 +37,7 @@ v0.set(False)
 check_first = ttk.Checkbutton(window, text="Álbum lançamento", variable=v0)
 check_first.grid(row=2, column=1, sticky="e")
 
-lbl = ttk.Label(window, text=" ")
+lbl = ttk.Label(window, text=" ", font=('Roboto', 17))
 
 
 def cadastra_album(e):
@@ -52,16 +52,11 @@ def cadastra_album(e):
         lbl.configure(text="Álbum cadastrado")
 
 
-btn_create = ttk.Button(window, text="Criar álbum")
+btn_create = ttk.Button(window, text="Criar álbum", style='Accent.TButton')
 btn_create.bind("<Button-1>", func=cadastra_album)
 btn_create.grid(row=3, column=1, sticky="W", pady=10)
 
 lbl.grid(row=4, column=1)
-
-
-def crate_label(window, text, colum=0, row=0):
-    lbl = ttk.Label(window, text=text)
-    lbl.pack()
 
 
 def search_albuns(e):
@@ -71,11 +66,11 @@ def search_albuns(e):
     second_screen.geometry(f"{width}x{height}+{x_cordinate}+{y_cordinate}")
     second_screen.resizable(FALSE, FALSE)
 
-    lbl_autor = ttk.Label(second_screen, text="Autor para pesquisar:")
+    lbl_autor = ttk.Label(second_screen, text="Autor para pesquisar:", font=('Roboto', 10))
     lbl_autor.pack()
     entry_autor = ttk.Entry(second_screen, name="autor", width=50)
     entry_autor.pack()
-    lbl_error = ttk.Label(second_screen, text="")
+    lbl_error = ttk.Label(second_screen, text="", font=('Roboto', 17))
     lbl_error.pack()
 
     frame_radio = ttk.Frame(second_screen)
@@ -104,7 +99,6 @@ def search_albuns(e):
     tr.heading("Lançamento do Artista", text="Lançamento do Artista")
     tr.pack()
 
-    
 
     def get_specific_album(e):
         if entry_autor.get() == "" and v0.get() == 0:
@@ -135,15 +129,15 @@ def search_albuns(e):
             item = item.split("|")
             tr.insert("", "end", values=[item[0], item[1], item[2], item[3]])
 
-    btn_search1 = ttk.Button(second_screen, text="Pesquisar")
+    btn_search1 = ttk.Button(second_screen, text="Pesquisar", style='Accent.TButton')
     btn_search1.bind("<Button-1>", func=get_specific_album)
     btn_search1.pack(pady=20)
 
-    btn_voltar = ttk.Button(second_screen, text="Voltar para tela principal", command=second_screen.destroy)
+    btn_voltar = ttk.Button(second_screen, text="Voltar para tela principal", command=second_screen.destroy, style='Accent.TButton')
     btn_voltar.pack()
 
 
-btn_search = ttk.Button(window, text="Mostrar todos os álbuns")
+btn_search = ttk.Button(window, text="Mostrar todos os álbuns", style='Accent.TButton')
 btn_search.bind("<Button-1>", search_albuns)
 btn_search.grid(row=5, column=1, sticky="w")
 
