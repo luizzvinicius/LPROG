@@ -78,17 +78,6 @@ def search_albuns(e):
     lbl_error = ttk.Label(second_screen, text="")
     lbl_error.pack()
 
-    tr = ttk.Treeview(second_screen, columns=("Autor", "Álbum", "Ano lançamento", "Lançamento do Artista"), show="headings",)
-    tr.column("Autor", minwidth=10, width=80, anchor="w")
-    tr.column("Álbum", minwidth=10, width=80, anchor="center")
-    tr.column("Ano lançamento", minwidth=10, width=120, anchor="center")
-    tr.column("Lançamento do Artista", minwidth=30, width=160, anchor="center")
-    tr.heading("Autor", text="Autor")
-    tr.heading("Álbum", text="Álbum")
-    tr.heading("Ano lançamento", text="Ano lançamento")
-    tr.heading("Lançamento do Artista", text="Lançamento do Artista")
-    tr.pack()
-
     frame_radio = ttk.Frame(second_screen)
     frame_radio.pack()
     v0 = IntVar()
@@ -103,6 +92,19 @@ def search_albuns(e):
     data = [str(i) for i in range(1900, current_year, 4)]
     cb = ttk.Combobox(second_screen, values=data)
     cb.pack()
+
+    tr = ttk.Treeview(second_screen, columns=("Autor", "Álbum", "Ano lançamento", "Lançamento do Artista"), show="headings",)
+    tr.column("Autor", minwidth=10, width=80, anchor="w")
+    tr.column("Álbum", minwidth=10, width=80, anchor="center")
+    tr.column("Ano lançamento", minwidth=10, width=120, anchor="center")
+    tr.column("Lançamento do Artista", minwidth=30, width=160, anchor="center")
+    tr.heading("Autor", text="Autor")
+    tr.heading("Álbum", text="Álbum")
+    tr.heading("Ano lançamento", text="Ano lançamento")
+    tr.heading("Lançamento do Artista", text="Lançamento do Artista")
+    tr.pack()
+
+    
 
     def get_specific_album(e):
         if entry_autor.get() == "" and v0.get() == 0:
