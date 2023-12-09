@@ -3,78 +3,146 @@ from tkinter import *
 from tkinter import ttk  # módulo mais compleot
 from datetime import date
 
-tamanho_input = 300
+current_year = date.today().year
 window = Tk()
 window.title("Spotify")
-window.geometry("700x450")
+root_width = window.winfo_screenwidth()
+root_height = window.winfo_screenheight()
+width = 520
+height = 580
+x_cordinate = int((root_width / 2) - (width / 2))
+y_cordinate = int((root_height / 2) - (height / 2))
+window.geometry(f"{width}x{height}+{x_cordinate}+{y_cordinate}")
 window.resizable(FALSE, FALSE)
 window.tk.call("source", "./python/albuns_activity/azure.tcl")
 window.tk.call("set_theme", "dark")
 
-def search_albuns(e):
-    global window
-    segunda_tela = Toplevel(window)
-    segunda_tela.title("Busca de álbuns")
-    segunda_tela.geometry("400x400")
-    segunda_tela.resizable(FALSE, FALSE)
+lbl_autor = ttk.Label(window, text="Autor: ")
+lbl_autor.grid(row=0, column=0, sticky="w", padx=16)
+entry_autor = ttk.Entry(window, name="autor", width=50)
+entry_autor.grid(row=0, column=1, pady=10)
 
-    rotulo_segunda_tela = ttk.Label(segunda_tela, text="Você está na segunda tela!")
-    rotulo_segunda_tela.pack()
+lbl_album = ttk.Label(window, text="Álbum: ")
+lbl_album.grid(row=1, column=0, sticky="w", padx=16)
+entry_album = ttk.Entry(window, name="album", width=50)
+entry_album.grid(row=1, column=1, pady=10)
 
-    def botao_voltar_click():
-        segunda_tela.destroy()
-
-    botao_voltar = ttk.Button(segunda_tela, text="Voltar", command=botao_voltar_click)
-    botao_voltar.pack()
-
-frame1 = ttk.Frame(window, borderwidth=1, relief="solid", width=tamanho_input, height=300)
-frame1.grid(row=0, column=0)
-
-lbl_autor = ttk.Label(frame1, text="Autor: ")
-lbl_autor.grid(row=0, column=0)
-entry_autor = ttk.Entry(frame1, name="autor", width=tamanho_input)
-entry_autor.grid(row=0, column=1)
-
-lbl_album = ttk.Label(frame1, text="Álbum: ")
-lbl_album.grid(row=1, column=0)
-entry_album = ttk.Entry(frame1, name="album", width=tamanho_input)
-entry_album.grid(row=1, column=1)
-
-lbl_date = ttk.Label(frame1, text="Data lançamento: ")
-lbl_date.grid(row=2, column=0)
-entry_date = ttk.Spinbox(frame1, from_=1900, to=date.today().year, width=tamanho_input)
-entry_date.grid(row=2, column=1)
+lbl_date = ttk.Label(window, text="Data lançamento: ")
+lbl_date.grid(row=2, column=0, padx=16)
+entry_date = ttk.Spinbox(window, from_=1900, to=current_year)
+entry_date.grid(row=2, column=1, sticky="W", pady=10)
 
 v0 = BooleanVar()
 v0.set(False)
-check_first = ttk.Checkbutton(frame1, text="Álbum lançamento", variable=v0)
-check_first.grid(row=3, column=0)
+check_first = ttk.Checkbutton(window, text="Álbum lançamento", variable=v0)
+check_first.grid(row=2, column=1, sticky="e")
 
-btn_search = ttk.Button(frame1, text="Mostrar todos os álbuns")
-btn_search.bind("<Button-1>", search_albuns)
-btn_search.grid(row=4, column=0, pady=10)
+lbl = ttk.Label(window, text=" ")
+
 
 def cadastra_album(e):
     autor = entry_autor.get()
     nome_album = entry_album.get()
     release_date = entry_date.get()
     first_album = v0.get()
-    message = ''
-    if '' in [autor, nome_album, release_date] or int(release_date) > date.today().year:
-        message = 'Algum campo no cadastro está vazio. Ou data é inválida'
+    if "" in [autor, nome_album, release_date] or release_date > str(current_year):
+        lbl.configure(text="Algum campo no cadastro está vazio. Ou data é inválida")
     else:
-        message = 'Álbum cadastrado'
         domain.write_album(autor, nome_album, release_date, first_album)
-    lbl = ttk.Label(frame1, text=message)
-    lbl.grid(row=6, column=0)
+        lbl.configure(text="Álbum cadastrado")
 
 
-btn_create = ttk.Button(frame1, text="Criar álbum")
+btn_create = ttk.Button(window, text="Criar álbum")
 btn_create.bind("<Button-1>", func=cadastra_album)
-btn_create.grid(row=5, column=0)
+btn_create.grid(row=3, column=1, sticky="W", pady=10)
+
+lbl.grid(row=4, column=1)
+
+def crate_label(window, text, colum=0, row=0):
+    lbl = ttk.Label(window, text=text)
+    lbl.pack()
+
+def search_albuns(e):
+    global window
+    second_screen = Toplevel(window)
+    second_screen.title("Busca de álbuns")
+    second_screen.geometry(f"{width}x{height}+{x_cordinate}+{y_cordinate}")
+    second_screen.resizable(FALSE, FALSE)
 
 
-lbl_teste = ttk.Label(frame1, text=entry_autor.get())
-lbl_teste.grid(row=7, column=0)
+    lbl_autor = ttk.Label(second_screen, text="Autor para pesquisar:")
+    lbl_autor.pack()
+    entry_autor = ttk.Entry(second_screen, name="autor", width=50)
+    entry_autor.pack()
+    lbl_error = ttk.Label(second_screen, text="")
+    lbl_error.pack()
+
+    tr = ttk.Treeview(second_screen, columns=('Autor', 'Álbum', 'Ano lançamento', 'Lançamento do Artista'), show='headings')
+    tr.column('Autor', minwidth=10, width=80, anchor='w')
+    tr.column('Álbum', minwidth=10, width=80, anchor='center')
+    tr.column('Ano lançamento', minwidth=10, width=120, anchor='center')
+    tr.column('Lançamento do Artista', minwidth=30, width=160, anchor='center')
+    tr.heading('Autor', text='Autor')
+    tr.heading('Álbum', text='Álbum')
+    tr.heading('Ano lançamento', text='Ano lançamento')
+    tr.heading('Lançamento do Artista', text='Lançamento do Artista')
+    tr.pack()
+
+
+    frame_radio = ttk.Frame(second_screen)
+    frame_radio.pack()
+    v0 = IntVar()
+    v0.set(0)
+    r1=ttk.Radiobutton(frame_radio, text="Anterior a", variable=v0, value=1)
+    r2=ttk.Radiobutton(frame_radio, text="Igual a", variable=v0, value=2)
+    r3=ttk.Radiobutton(frame_radio, text="Posterior a", variable=v0, value=3)
+    r1.pack(anchor='w')
+    r2.pack(anchor='w')
+    r3.pack(anchor='w')
+
+    data = [str(i) for i in range(1900, current_year, 4)]
+    cb = ttk.Combobox(second_screen, values=data)
+    cb.pack()
+
+    def get_specific_album(e):
+        if entry_autor.get() == '' and v0.get() == 0:
+            lbl_error.configure(text="Nome do Autor está vazio")
+            return
+
+        if entry_autor.get() and v0.get() in (1,2,3) and cb.get():
+            lbl_error.configure(text="Forma de busca inválida")
+            return
+
+        for i in tr.get_children():
+            tr.delete(i)
+
+        specific_albuns = []
+        if entry_autor.get():
+            specific_albuns = domain.get_album_by_author(entry_autor.get())
+        elif v0.get() == 1:
+            specific_albuns = domain.get_album_previous_year(cb.get())
+        elif v0.get() == 2:
+            specific_albuns = domain.get_album_same_year(cb.get())
+        elif v0.get() == 3:
+            specific_albuns = domain.get_album_next_year(cb.get())
+        
+        if len(specific_albuns) == 0:
+            lbl_error.configure(text="Nenhum autor com esses filtros cadastrado")
+            return
+        for item in specific_albuns:
+            item = item.split("|")
+            tr.insert('', 'end', values=[item[0], item[1], item[2], item[3]])
+
+    btn_search1 = ttk.Button(second_screen, text="Pesquisar")
+    btn_search1.bind("<Button-1>", func=get_specific_album)
+    btn_search1.pack(pady=20)
+
+    btn_voltar = ttk.Button(second_screen, text="Voltar para tela principal", command=second_screen.destroy)
+    btn_voltar.pack()
+
+
+btn_search = ttk.Button(window, text="Mostrar todos os álbuns")
+btn_search.bind("<Button-1>", search_albuns)
+btn_search.grid(row=5, column=1, sticky="w")
 
 window.mainloop()

@@ -11,11 +11,20 @@ def get_albuns():
 
 
 def get_album_by_author(author: str):
-    albuns = get_albuns()
-    selected_albuns = []
-    print(albuns)
-    for album in albuns:
-        values = album.split("|")
-        if author.lower() in values[1].lower():
-            selected_albuns.append(values[1])
-    return selected_albuns
+    selected_albuns = filter(lambda item: author in item.split("|")[0], get_albuns())
+    return list(selected_albuns)
+
+
+def get_album_same_year(date):
+    selected_albuns = filter(lambda item: item.split("|")[2] == date, get_albuns())
+    return list(selected_albuns)
+
+
+def get_album_previous_year(date):
+    selected_albuns = filter(lambda item: item.split("|")[2] <= date, get_albuns())
+    return list(selected_albuns)
+
+
+def get_album_next_year(date):
+    selected_albuns = filter(lambda item: item.split("|")[2] > date, get_albuns())
+    return list(selected_albuns)
