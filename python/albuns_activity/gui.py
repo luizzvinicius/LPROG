@@ -27,32 +27,32 @@ def search_albuns(e):
     botao_voltar = ttk.Button(segunda_tela, text="Voltar", command=botao_voltar_click)
     botao_voltar.pack()
 
-frame1 = ttk.Frame(window, borderwidth=1, relief="solid", width=tamanho_input, height=150)
-frame1.pack()
+frame1 = ttk.Frame(window, borderwidth=1, relief="solid", width=tamanho_input, height=300)
+frame1.grid(row=0, column=0)
 
 lbl_autor = ttk.Label(frame1, text="Autor: ")
-lbl_autor.pack()
+lbl_autor.grid(row=0, column=0)
 entry_autor = ttk.Entry(frame1, name="autor", width=tamanho_input)
-entry_autor.pack()
+entry_autor.grid(row=0, column=1)
 
 lbl_album = ttk.Label(frame1, text="Álbum: ")
-lbl_album.pack()
+lbl_album.grid(row=1, column=0)
 entry_album = ttk.Entry(frame1, name="album", width=tamanho_input)
-entry_album.pack()
+entry_album.grid(row=1, column=1)
 
 lbl_date = ttk.Label(frame1, text="Data lançamento: ")
-lbl_date.pack()
+lbl_date.grid(row=2, column=0)
 entry_date = ttk.Spinbox(frame1, from_=1900, to=date.today().year, width=tamanho_input)
-entry_date.pack()
+entry_date.grid(row=2, column=1)
 
 v0 = BooleanVar()
 v0.set(False)
 check_first = ttk.Checkbutton(frame1, text="Álbum lançamento", variable=v0)
-check_first.pack()
+check_first.grid(row=3, column=0)
 
-btn_search = ttk.Button(window, text="Mostrar todos os álbuns")
+btn_search = ttk.Button(frame1, text="Mostrar todos os álbuns")
 btn_search.bind("<Button-1>", search_albuns)
-btn_search.pack()
+btn_search.grid(row=4, column=0, pady=10)
 
 def cadastra_album(e):
     autor = entry_autor.get()
@@ -65,17 +65,16 @@ def cadastra_album(e):
     else:
         message = 'Álbum cadastrado'
         domain.write_album(autor, nome_album, release_date, first_album)
-    lbl = ttk.Label(window, text=message)
-    lbl.pack()
+    lbl = ttk.Label(frame1, text=message)
+    lbl.grid(row=6, column=0)
 
 
-btn_create = ttk.Button(window, text="Criar álbum")
+btn_create = ttk.Button(frame1, text="Criar álbum")
 btn_create.bind("<Button-1>", func=cadastra_album)
-btn_create.pack()
-
+btn_create.grid(row=5, column=0)
 
 
 lbl_teste = ttk.Label(frame1, text=entry_autor.get())
-lbl_teste.pack()
+lbl_teste.grid(row=7, column=0)
 
 window.mainloop()
