@@ -4,7 +4,7 @@ file_name = "albuns.txt"
 def write_albuns(author, album, release_date, first_song):
     with open(file_name, "a", encoding="UTF-8") as file:
         file.write(f"{author}|{album}|{release_date}|{first_song}\n")
-
+#teste
 
 def read_albuns():
     albuns = []
