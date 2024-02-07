@@ -1,7 +1,7 @@
 file_name = "names.txt"
 
 def write_names():
-    with open(file_name, 'a', encoding="UTF-8") as file:
+    with open(file_name, 'a', encoding="UTF-8") as file: 
         while True:
             name = input('\nNome: ')
             idade = int(input('Idade: '))
