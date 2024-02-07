@@ -7,11 +7,13 @@ public class Media {
             var notasComPeso = new ArrayList<Double>();
             var pesos = new ArrayList<Double>();
             final int MARKS = 3;
+            double nota = 0;
+            double peso = 0;
             for (var i = 1; i <= MARKS; i++) {
                 System.out.printf("Digite a %d° nota: ", i);
-                var nota = scan.nextDouble();
+                nota = scan.nextDouble();
                 System.out.printf("Digite o peso dessa nota: ");
-                var peso = scan.nextDouble();
+                peso = scan.nextDouble();
                 notasComPeso.add(nota * peso);
                 pesos.add(peso);
             }
