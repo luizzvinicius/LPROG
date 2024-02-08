@@ -1,0 +1,2 @@
+No link abaixo está as 5 questões feitas em haskell
+https://replit.com/@luizzvinicius/Atividade5-hs
