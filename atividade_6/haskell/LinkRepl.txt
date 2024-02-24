@@ -1,0 +1,2 @@
+https://replit.com/@luizzvinicius?path=folder/atividade_6%20hs
+Caso queira executar algum arquivo, é necessário mudar o nomde do arquivo para Main.hs
