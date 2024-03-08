@@ -14,7 +14,7 @@ public class ReadFile {
             String longestWord = "";
             String[] words;
             for (int i = 0; i < lines.size(); i++) {
-                words = lines.get(i).split(" ");
+                words = lines.get(i).toLowerCase().split(" ");
                 for (String word : words) {
                     totalWords = countVowelsAndWords(vogais, word);
                     if (word.length() > longestWord.length()) {
@@ -40,16 +40,15 @@ public class ReadFile {
 
     static int countVowelsAndWords(List<Integer> vogais, String word) {
         int totalWords = 0;
-        word.toLowerCase().chars()
-        .forEach(c -> {
-            var index = "aeiou".indexOf(c);
+        for (int i = 0; i < word.length(); i++) {
+            var index = "aeiou".indexOf(word.charAt(i));
             if (index != -1) vogais.set(index, vogais.get(index) + 1);
-        });
+        }
         return totalWords++;
     }
 
     static Boolean existsCAO(String word) {
-        return word.toLowerCase().contains("ção");
+        return word.contains("ção");
     }
 
     static String recurrentVowel(List<Integer> vogais) {
