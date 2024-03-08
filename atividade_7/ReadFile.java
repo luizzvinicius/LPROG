@@ -7,19 +7,18 @@ import java.io.IOException;
 public class ReadFile {
     public static void main(String[] args) {
         try {
-            List<Integer> vogais = new ArrayList<>(List.of(0, 0, 0, 0, 0));
             List<String> lines = readLines("atividade_7/strings.txt");
-            int lineExistsCAO = -1;
-            String[] words;
-            Object[] longestWord = { "", 0 };
+            List<Integer> vogais = new ArrayList<>(List.of(0, 0, 0, 0, 0));
             int totalWords = 0;
+            int lineExistsCAO = -1;
+            String longestWord = "";
+            String[] words;
             for (int i = 0; i < lines.size(); i++) {
                 words = lines.get(i).split(" ");
                 for (String word : words) {
                     totalWords = countVowelsAndWords(vogais, word);
-                    if (word.length() > Integer.parseInt(longestWord[1].toString())) {
-                        longestWord[0] = word;
-                        longestWord[1] = word.length();
+                    if (word.length() > longestWord.length()) {
+                        longestWord = word;
                     }
                     if (lineExistsCAO == -1 && existsCAO(word)) {
                         lineExistsCAO = i + 1;
@@ -27,7 +26,7 @@ public class ReadFile {
                 }
             }
             System.out.printf("Existem %d palavras no texto.%n", totalWords);
-            System.out.printf("A palavra %s possui %d caracteres é a mais longa%n", longestWord[0], longestWord[1]);
+            System.out.printf("A palavra %s possui %d caracteres é a mais longa%n", longestWord, longestWord.length());
             System.out.printf("Vogal mais recorrente: %s%n", recurrentVowel(vogais));
             System.out.printf("1º Ocorrência de 'ção' é na %d linha%n", lineExistsCAO);
         } catch (Exception e) {
