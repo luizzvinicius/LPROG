@@ -10,17 +10,18 @@ public class ReadFile {
             List<String> lines = readLines("atividade_7/strings.txt");
             List<Integer> vogais = new ArrayList<>(List.of(0, 0, 0, 0, 0));
             int totalWords = 0;
-            int lineExistsCAO = -1;
+            int lineExistsCAO = 0;
             String longestWord = "";
             String[] words;
             for (int i = 0; i < lines.size(); i++) {
                 words = lines.get(i).toLowerCase().split(" ");
+                totalWords += words.length;
                 for (String word : words) {
-                    totalWords = countVowelsAndWords(vogais, word);
+                    countVowelsAndWords(vogais, word);
                     if (word.length() > longestWord.length()) {
                         longestWord = word;
                     }
-                    if (lineExistsCAO == -1 && existsCAO(word)) {
+                    if (lineExistsCAO == 0 && existsCAO(word)) {
                         lineExistsCAO = i + 1;
                     }
                 }
@@ -38,13 +39,11 @@ public class ReadFile {
         return Files.readAllLines(Paths.get(path));
     }
 
-    static int countVowelsAndWords(List<Integer> vogais, String word) {
-        int totalWords = 0;
+    static void countVowelsAndWords(List<Integer> vogais, String word) {
         for (int i = 0; i < word.length(); i++) {
             var index = "aeiou".indexOf(word.charAt(i));
             if (index != -1) vogais.set(index, vogais.get(index) + 1);
         }
-        return totalWords++;
     }
 
     static Boolean existsCAO(String word) {
