@@ -21,12 +21,10 @@ public class IPCA {
             .map(s -> Double.valueOf(s[2]))
             .sorted()
             .toList();
-            var soma = 0;
-            for (Double s : formatado) {
-                soma += s;
-            }
             
-            System.out.println("maior: " + info.get(formatado.indexOf(formatado.getFirst())));
+            var soma = formatado.stream().reduce(0d, Double::sum);
+            
+            System.out.println("maior: " + info.get(formatado.indexOf(formatado.get(0))));
             System.out.println("menor: " + info.get(formatado.indexOf(formatado.getLast())));
             System.out.println("média: " + soma / formatado.size());
         } catch (Exception e) {
