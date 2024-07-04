@@ -13,7 +13,6 @@ def matrix_multiply(A, B):
 
     # Initialize the result matrix with zeros
     result = [[0 for _ in range(cols_B)] for _ in range(rows_A)]
-    print(result)
 
     # Perform matrix multiplication
     for i in range(rows_A):
