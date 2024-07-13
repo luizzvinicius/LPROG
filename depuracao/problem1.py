@@ -17,7 +17,7 @@ def find_max(numbers):
 
 def get_numbers():
     numbers = input("Enter numbers separated by spaces: ").split()
-    numbers = [int(num) for num in numbers]
+    numbers = [float(num) for num in numbers] # change to float to accept all kinds of value
     return numbers
 
 

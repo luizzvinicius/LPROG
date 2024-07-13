@@ -2,9 +2,8 @@
 
 
 def max_subarray_sum(arr, k):
-    print(arr, k)
     n = len(arr)
-    if k <= 0 or k > n: # avoid indexError
+    if not 0 < k <= n:
         print("Invalid input")
         return -1
 
